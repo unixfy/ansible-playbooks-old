@@ -17,6 +17,10 @@
   apt:
     name: net-tools,unzip,wget,curl,zip,sudo,python3,python-is-python3
     state: present
+    register: apt_status
+    until: apt_status is success
+    delay: 6
+    retries: 10
 
 - name: Add sudo user unixfy
   user:
