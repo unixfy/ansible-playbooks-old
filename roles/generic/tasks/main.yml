@@ -11,7 +11,7 @@
 
 - name: Set timezone
   timezone:
-    name: America/New York
+    name: America/New_York
 
 - name: Install basic packages
   apt:
