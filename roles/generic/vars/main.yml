@@ -5,3 +5,5 @@ sshkeys:
     key: ssh-ed25519 ***REMOVED***
   - name: ansible_key
     key: ssh-ed25519 ***REMOVED***
+
+zerotier_network_id: ***REMOVED***

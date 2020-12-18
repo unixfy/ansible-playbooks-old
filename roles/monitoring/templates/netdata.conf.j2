@@ -1,0 +1,10 @@
+# Netdata configuration
+# Rendered and deployed at {{ now() }}
+
+[global]
+  {% if hostvars[inventory_hostname].hostname %}
+  hostname = {{ hostvars[inventory_hostname].hostname }}
+  {% endif %}
+
+[web]
+    mode = none

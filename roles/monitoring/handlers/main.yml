@@ -1,0 +1,8 @@
+---
+- name: Restart Netdata
+  service:
+    name: netdata
+    state: restarted
+
+- name: Reload Netdata claiming state
+  shell: netdatacli reload-claiming-state

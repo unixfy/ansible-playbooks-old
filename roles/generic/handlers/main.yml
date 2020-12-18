@@ -3,3 +3,18 @@
   service:
     name: sshd
     state: restarted
+
+- name: Restart ZeroTier
+  service:
+    name: zerotier-one
+    state: restarted
+
+- name: Start ZeroTier
+  service:
+    name: zerotier-one
+    state: started
+
+- name: Enable ZeroTier
+  service:
+    name: zerotier-one
+    enabled: True

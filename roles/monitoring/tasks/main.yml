@@ -1,0 +1,28 @@
+---
+- name: Install Netdata if not already installed
+  tags:
+    - netdata
+  shell: curl -s https://packagecloud.io/install/repositories/netdata/netdata/script.deb.sh | sudo bash
+  when: "'netdata' not in ansible_facts.packages"
+
+- name: Check if I am already claimed in Netdata
+  # This check is used to prevent errors in the following task to claim the node to Netdata Cloud.
+  stat:
+    path: /var/lib/netdata/cloud.d/claimed_id
+  register: claimed_result
+
+- name: Claim myself in Netdata Cloud
+  shell: sudo netdata-claim.sh -token=***REMOVED*** -url=https://app.netdata.cloud
+  tags:
+    - netdata
+  notify: Reload Netdata claiming state
+  when: claimed_result.stat.exists == false
+
+- name: Secure Netdata configuration
+  template:
+    src: templates/netdata.conf.j2
+    dest: /etc/netdata/netdata.conf
+    owner: root
+    group: root
+    mode: u=wrx,g=rx,o=r,+x
+  notify: Restart Netdata
