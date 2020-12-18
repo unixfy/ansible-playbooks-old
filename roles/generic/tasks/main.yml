@@ -17,7 +17,7 @@
   apt:
     name: net-tools,unzip,wget,curl,zip,sudo,python3,python-is-python3,python-apt,nano
     state: present
-    register: apt_status
+  register: apt_status
   until: apt_status is success
   delay: 6
   retries: 10
