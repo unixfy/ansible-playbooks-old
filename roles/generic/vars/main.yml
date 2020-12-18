@@ -1,0 +1,7 @@
+---
+# A list of the SSH keys which will be deployed to all servers
+sshkeys:
+  - name: unixfy_key
+    key: ssh-ed25519 ***REMOVED***
+  - name: ansible_key
+    key: ssh-ed25519 ***REMOVED***

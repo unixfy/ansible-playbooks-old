@@ -1,0 +1,70 @@
+---
+# Update APT cache
+- name: apt update
+  apt:
+    update_cache: True
+
+# Upgrade packages
+- name: apt upgrade
+  apt:
+    upgrade: True
+
+- name: Set timezone
+  timezone:
+    name: America/New York
+
+- name: Install basic packages
+  apt:
+    name: net-tools,unzip,wget,curl,zip,sudo,python3,python-is-python3
+    state: present
+
+- name: Add sudo user unixfy
+  user:
+    name: unixfy
+    state: present
+    update_password: on_create
+    groups: sudo
+
+- name: Add all SSH keys from vars/main.yml/sshkeys to authorized_keys of unixfy user
+  authorized_key:
+    exclusive: True
+    state: present
+    user: unixfy
+    key: "{{ sshkeys|map(attribute='key')|join('\n') }}"
+
+- name: Install SSH server
+  apt:
+    name: openssh-server
+    state: present
+
+- name: Ensure SSH server is running
+  service:
+    name: sshd
+    enabled: True
+    state: started
+
+- name: Copy our fancy SSH banner to /etc/issue
+  copy:
+    backup: True
+    dest: /etc/issue
+    mode: 0644
+    owner: root
+    src: files/banner
+
+- name: Deploy a secure SSH configuration
+  notify: Restart SSHD
+  template:
+    dest: /etc/ssh/sshd_config
+    owner: root
+    mode: 0600
+    src: templates/sshd_config.j2
+
+- name: Enable NOPASSWD sudo elevation
+  lineinfile:
+    state: present
+    validate: 'visudo -cf %s'
+    mode: 0440
+    owner: root
+    path: /etc/sudoers
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
