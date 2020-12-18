@@ -1,4 +1,8 @@
 ---
+- name: Gather the package facts
+  package_facts:
+    manager: auto
+
 # Update APT cache
 - name: apt update
   apt:
