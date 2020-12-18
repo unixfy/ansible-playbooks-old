@@ -3,3 +3,19 @@
   become: True
   roles:
     - generic
+    - monitoring
+
+- hosts: bgp
+  become: True
+  roles:
+    - bgp
+
+- hosts: docker
+  become: True
+  roles:
+    - docker
+
+- hosts: vpn
+  become: True
+  roles:
+    - vpnserver
