@@ -6,7 +6,7 @@
     mode: +x
 
 - name: Install Netdata
-  command: ~/kickstart.sh --dont-wait
+  command: ~/kickstart.sh --dont-wait --stable-channel
 
 - name: Cleanup installation script
   file:
