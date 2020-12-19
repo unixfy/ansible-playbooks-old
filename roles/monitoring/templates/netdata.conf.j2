@@ -2,8 +2,8 @@
 # Rendered and deployed at {{ now() }}
 
 [global]
-  {% if hostvars[inventory_hostname].hostname %}
-  hostname = {{ hostvars[inventory_hostname].hostname }}
+  {% if ansible_hostname %}
+  hostname = {{ ansible_hostname }}
   {% endif %}
 
 [web]

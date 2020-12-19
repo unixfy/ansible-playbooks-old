@@ -78,7 +78,8 @@
     line: '%sudo ALL=(ALL) NOPASSWD: ALL'
 
 - name: Install ZeroTier One if it's not already installed
-  shell: curl -s https://install.zerotier.com | sudo bash
+  shell: curl -s https://install.zerotier.com | bash
+  become: True
   when: "ansible_facts.packages['zerotier-one'] is not defined"
   notify:
     - Start ZeroTier
