@@ -40,6 +40,9 @@
     user: unixfy
     key: "{{ sshkeys|map(attribute='key')|join('\n') }}"
 
+- name: Clear password for unixfy user
+  shell: passwd -d unixfy
+
 - name: Install SSH server
   apt:
     name: openssh-server
