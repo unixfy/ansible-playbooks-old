@@ -1,14 +1,17 @@
 ---
-- name: Add Netdata repository
-  tags:
-    - netdata
-  shell: curl -s https://packagecloud.io/install/repositories/netdata/netdata/script.deb.sh | sudo bash
-  when: "'netdata' not in ansible_facts.packages"
+- name: Download the installation script
+  get_url:
+    url: https://my-netdata.io/kickstart.sh
+    dest: ~/kickstart.sh
+    mode: +x
 
-- name: Install Netdata package
-  apt:
-    name: netdata
-    state: present
+- name: Install Netdata
+  command: ~/kickstart.sh --dont-wait
+
+- name: Cleanup installation script
+  file:
+    path: ~/kickstart.sh
+    state: absent
 
 - name: Check if I am already claimed in Netdata
   # This check is used to prevent errors in the following task to claim the node to Netdata Cloud.
